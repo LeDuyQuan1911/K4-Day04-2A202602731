@@ -1,0 +1,5 @@
+﻿version,hypothesis,prompt_change,tools_change,metric,before,after,run_file
+v0,baseline,none,none,,,,
+v1,Adding tool routing + missing info + confirmation + security rules will improve routing accuracy,Added tool routing map + missing info rules + confirmation boundaries + multi-turn context + security boundaries,pending B improvements,,,,
+v2,,,,,,, 
+v3,,,,,,, 
