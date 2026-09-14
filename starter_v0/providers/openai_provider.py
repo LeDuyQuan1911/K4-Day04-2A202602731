@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from typing import Any
 
 from providers.base import ModelResponse, ToolCall
@@ -50,7 +51,17 @@ class OpenAIProvider:
         if tool_choice is not None:
             kwargs["tool_choice"] = tool_choice
 
-        resp = client.chat.completions.create(**kwargs)
+        # Retry transient rate-limit / upstream errors (free-tier providers hit 429 often).
+        max_retries = int(os.getenv("PROVIDER_MAX_RETRIES", "6"))
+        for attempt in range(max_retries + 1):
+            try:
+                resp = client.chat.completions.create(**kwargs)
+                break
+            except Exception as exc:  # noqa: BLE001 - inspect status code, re-raise if not transient
+                status = getattr(exc, "status_code", None)
+                if status not in (408, 409, 429, 500, 502, 503, 504) or attempt >= max_retries:
+                    raise
+                time.sleep(min(2 ** attempt * 2, 60))
         msg = resp.choices[0].message
         calls: list[ToolCall] = []
         for call in msg.tool_calls or []:
