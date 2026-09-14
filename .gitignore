@@ -18,8 +18,7 @@ starter_v0/tests/
 
 # Local action/scratch output
 /starter_v0/tickets/
-/starter_v0/runs/
-/starter_v0/transcripts/
+# Keep runs/transcripts commit-able as lab evidence (tickets stay ignored).
 /starter_v0/analysis/
 
 # OS / editor
