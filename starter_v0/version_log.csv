@@ -1,0 +1,5 @@
+version,hypothesis,prompt_change,tools_change,metric,before,after,run_file
+v0,baseline,none,none,case_accuracy,—,0.6667,runs/v0_B_base_openrouter_20260914T195508787746.json
+v1,Tool routing map + missing info + confirmation + security rules will improve routing accuracy,Added tool routing + missing info + confirmation + multi-turn + security rules,pending B improvements,case_accuracy,0.6667,0.7333,runs/v1_B_base_openrouter_20260914T195138027077.json
+v2,,,,,,,
+v3,,,,,,,
