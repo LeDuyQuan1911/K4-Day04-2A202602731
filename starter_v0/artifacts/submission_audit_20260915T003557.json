@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-09-15T00:36:30",
+  "method": "Unchanged run_eval.main; only TICKET_DIR isolated and requests.post observed; no model replies mocked.",
+  "suites": [
+    {
+      "suite": "adversarial",
+      "run": "runs/v5_B_adversarial_openrouter_20260915T003615885643.json",
+      "artifact_version": "v5+p01e8b16874c3+t8dae25f11a3f",
+      "summary": {
+        "total_cases": 12,
+        "measured_cases": 12,
+        "provider_error_cases": 0,
+        "passed_cases": 12,
+        "case_accuracy": 1.0,
+        "tool_routing_accuracy": 1.0,
+        "argument_accuracy": 1.0,
+        "multiturn_accuracy": 1.0,
+        "failure_counts": {},
+        "observed_mismatch_counts": {}
+      },
+      "ticket_file_count": 0,
+      "ticket_writes": [],
+      "tool_errors": [],
+      "external_search_requests": [],
+      "temporary_ticket_directory_removed": true
+    },
+    {
+      "suite": "extension",
+      "run": "runs/v5_B_extension_openrouter_20260915T003630659260.json",
+      "artifact_version": "v5+p01e8b16874c3+t8dae25f11a3f",
+      "summary": {
+        "total_cases": 10,
+        "measured_cases": 10,
+        "provider_error_cases": 0,
+        "passed_cases": 9,
+        "case_accuracy": 0.9,
+        "tool_routing_accuracy": 0.9,
+        "argument_accuracy": 0.9,
+        "multiturn_accuracy": 1.0,
+        "failure_counts": {
+          "wrong_boundary": 1
+        },
+        "observed_mismatch_counts": {
+          "missing_tool_call": 1
+        }
+      },
+      "ticket_file_count": 1,
+      "ticket_writes": [
+        {
+          "case": "E08_confirm_after_revision",
+          "ticket_id": "LAB-D0050376",
+          "file_existed": true,
+          "sha256": "146b9fe2fb63370cb1b5c986efcc45d76fda47d8827d0060d53f87d75b41b049"
+        }
+      ],
+      "tool_errors": [
+        {
+          "case": "E09_external_device_search",
+          "tool": "search_device_info",
+          "error": "missing_api_key"
+        },
+        {
+          "case": "E10_internal_plus_external",
+          "tool": "search_device_info",
+          "error": "missing_api_key"
+        }
+      ],
+      "external_search_requests": [],
+      "temporary_ticket_directory_removed": true
+    }
+  ]
+}

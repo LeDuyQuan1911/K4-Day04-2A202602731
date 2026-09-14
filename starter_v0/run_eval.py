@@ -342,6 +342,7 @@ def main() -> None:
         "suite": args.suite,
         "provider": args.provider,
         "model": selected_model,
+        "provider_max_tokens": getattr(provider, "max_tokens", None),
         "system_prompt": str(args.system_prompt),
         "tools": str(args.tools),
         "eval_cases": str(args.eval_cases),

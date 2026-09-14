@@ -1,11 +1,11 @@
-from __future__ import annotations
-
 """Streamlit chat UI for the IT Helpdesk Agent.
 
 Reuses `run_model_tool_loop` from chat.py (no new agent loop). The goal is a
 simple, auditable trace: every round, tool call, args, result/error, status,
 artifact version/hashes and the transcript path are visible on screen.
 """
+
+from __future__ import annotations
 
 import json
 import os
@@ -211,7 +211,7 @@ with st.sidebar:
         value=PROVIDER_DEFAULT_MODEL[provider_name],
         key=f"model_{provider_name}",
     )
-    version_label = st.text_input("Artifact version label", value="v3")
+    version_label = st.text_input("Artifact version label", value="v5")
     history_window = st.number_input("History window (pairs)", min_value=0, max_value=20, value=5)
     max_tool_rounds = st.number_input("Max tool rounds", min_value=1, max_value=10, value=4)
     model = model_input.strip() or None
@@ -240,14 +240,17 @@ config_changed = (
     or tr["model"] != model
     or tr["history_window"] != int(history_window)
     or tr["max_tool_rounds"] != int(max_tool_rounds)
+    or tr["prompt_hash"] != ver.prompt_hash
+    or tr["tools_hash"] != ver.tools_hash
 )
 if config_changed and not tr["turns"]:
     new_session(provider_name, model, version_label, int(history_window), int(max_tool_rounds))
     tr = st.session_state.transcript
+    config_changed = False
 elif config_changed:
     st.sidebar.warning(
         f"Session is recording with provider=`{tr['provider']}`, version=`{tr['version']}`, "
-        f"model=`{tr['model']}`. Click **New session** to apply the new config."
+        f"model=`{tr['model']}`. Config or artifacts changed. Click **New session** to apply them."
     )
 
 with st.sidebar:
@@ -263,7 +266,7 @@ openai_tools = to_openai_tools(load_tool_declarations(TOOLS_PATH))
 for msg in st.session_state.messages:
     render_message(msg)
 
-if prompt := st.chat_input("Nhập yêu cầu hỗ trợ IT..."):
+if prompt := st.chat_input("Nhập yêu cầu hỗ trợ IT...", disabled=config_changed):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
@@ -288,6 +291,8 @@ if prompt := st.chat_input("Nhập yêu cầu hỗ trợ IT..."):
         with st.spinner(f"Running model/tool loop (max {tr['max_tool_rounds']} rounds)..."):
             try:
                 provider = get_provider(tr["provider"])
+                tr["effective_model"] = tr["model"] or getattr(provider, "default_model", None)
+                tr["provider_max_tokens"] = getattr(provider, "max_tokens", None)
                 result = run_model_tool_loop(
                     provider=provider,
                     messages=messages,
