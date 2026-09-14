@@ -23,6 +23,19 @@ QUERY_LABELS = {
     "compatibility": "hardware and operating system compatibility",
 }
 INTERNAL_IDENTIFIER = re.compile(r"\b(?:LT|DT|MB|PR|RM|EMP)-\d+\b", re.IGNORECASE)
+# Second guard layer: block other internal fields even if the model bypasses the prompt rule.
+RESTRICTED_INTERNAL_DATA = re.compile(
+    r"(?:"
+    r"\b(?:serial|s/n|sn)\s*[:#=]?\s*[A-Z0-9-]{6,}"          # serial numbers
+    r"|\b(?:hostname|host)\s*[:=]?\s*\S+"                     # hostnames
+    r"|\b[a-z0-9-]+\.(?:local|corp|internal|lan|intra)\b"     # internal DNS names
+    r"|\b(?:floor|room|office|building)\s+[A-Z0-9-]+"          # office locations
+    r"|\b(?:assigned[_ ]to|employee|user)\s*[:=]\s*\S+"      # assigned user fields
+    r"|\b(?:password|passwd|token|api[ _-]?key|mfa|otp|recovery[ _-]?code)\b"  # credentials
+    r"|\b(?:diagnostic|latency|AUTH_TIMEOUT|packet loss|SMART)\b"  # diagnostic output
+    r")",
+    re.IGNORECASE,
+)
 
 
 def _domain(url: str) -> str:
@@ -62,11 +75,18 @@ def search_device_info(
         return {"tool": "search_device_info", "error": "missing_public_product_identity"}
     if len(manufacturer_value) > 80 or len(model_value) > 160:
         return {"tool": "search_device_info", "error": "public_product_identity_too_long"}
-    if INTERNAL_IDENTIFIER.search(f"{manufacturer_value} {model_value}"):
+    outbound_text = f"{manufacturer_value} {model_value}"
+    if INTERNAL_IDENTIFIER.search(outbound_text):
         return {
             "tool": "search_device_info",
             "error": "restricted_internal_identifier",
             "message": "Remove asset and employee identifiers before external search.",
+        }
+    if RESTRICTED_INTERNAL_DATA.search(outbound_text):
+        return {
+            "tool": "search_device_info",
+            "error": "restricted_internal_data",
+            "message": "Only a public manufacturer and model name may be sent to external search; remove serial numbers, hostnames, locations, users, diagnostics and credentials.",
         }
     if query_type_value not in QUERY_LABELS:
         return {"tool": "search_device_info", "error": "invalid_query_type", "query_type": query_type_value}
