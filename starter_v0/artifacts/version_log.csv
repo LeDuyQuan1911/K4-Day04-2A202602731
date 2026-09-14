@@ -1,1 +1,3 @@
 version,author,changed_artifact,artifact_version,prompt_hash,tools_hash,reason,hypothesis,metric_name,metric_before,metric_after,run_file
+v0,A,none,v0+p233ec2cecfdf+teb3e2243f237,233ec2cecfdf,eb3e2243f237,baseline,,case_accuracy,,0.6667,runs/v0_B_base_openrouter_20260914T195508787746.json
+v1,A,system_prompt.md,v1+pe995a3010607+teb3e2243f237,e995a3010607,eb3e2243f237,Tool routing + missing info + confirmation + security rules,Adding explicit tool routing map and security boundaries will improve routing accuracy,case_accuracy,0.6667,0.7333,runs/v1_B_base_openrouter_20260914T195138027077.json
