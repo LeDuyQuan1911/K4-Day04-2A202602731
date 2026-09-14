@@ -106,6 +106,36 @@ def get_provider(name: str):
 # Rendering helpers
 # ---------------------------------------------------------------------------
 
+def parse_structured_reply(text: str | None) -> tuple[str, dict[str, Any] | None]:
+    """The system prompt asks for JSON {intent, action, reply, evidence_ids}.
+    Return (display_text, structured) — display_text is `reply` when parseable,
+    otherwise the raw text. Tolerates ```json fences."""
+    if not text:
+        return "", None
+    candidate = text.strip()
+    if candidate.startswith("```"):
+        candidate = candidate.strip("`")
+        if candidate.lower().startswith("json"):
+            candidate = candidate[4:]
+        candidate = candidate.strip()
+    try:
+        data = json.loads(candidate)
+    except (json.JSONDecodeError, TypeError):
+        return text, None
+    if isinstance(data, dict) and "reply" in data:
+        return str(data.get("reply") or ""), data
+    return text, None
+
+
+def render_assistant_text(text: str | None) -> None:
+    display, structured = parse_structured_reply(text)
+    st.markdown(display or "_(empty response)_")
+    if structured is not None:
+        meta = {k: v for k, v in structured.items() if k != "reply"}
+        with st.expander("Structured response (intent / action / evidence_ids)", expanded=False):
+            st.json(meta)
+
+
 def status_badge(status: str) -> str:
     icon, label = STATUS_LABEL.get(status, ("•", status))
     return f"{icon} `{label}`"
@@ -143,7 +173,7 @@ def render_turn_trace(turn: dict[str, Any]) -> None:
         with st.expander(title, expanded=bool(calls)):
             if rnd.get("assistant_text"):
                 st.markdown("**Assistant text (this round)**")
-                st.markdown(rnd["assistant_text"])
+                st.code(rnd["assistant_text"], language=None)
             for i, call in enumerate(calls):
                 st.markdown(f"🔧 **`{call['name']}`**")
                 if i < len(results):
@@ -156,7 +186,10 @@ def render_turn_trace(turn: dict[str, Any]) -> None:
 
 def render_message(msg: dict[str, Any]) -> None:
     with st.chat_message(msg["role"]):
-        st.markdown(msg["content"] or "_(empty response)_")
+        if msg["role"] == "assistant":
+            render_assistant_text(msg["content"])
+        else:
+            st.markdown(msg["content"])
         if msg["role"] == "assistant" and "turn" in msg:
             render_turn_trace(msg["turn"])
 
@@ -274,7 +307,7 @@ if prompt := st.chat_input("Nhập yêu cầu hỗ trợ IT..."):
                 })
 
         turn_record["ended_at"] = now_iso()
-        st.markdown(assistant_text or "_(no response)_")
+        render_assistant_text(assistant_text)
         render_turn_trace(turn_record)
 
     tr["turns"].append(turn_record)
