@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+# Team roster for Day 04 Lab submission
+
+| Full name | Student ID (MSSV) | GitHub username | Role |
+|---|---|---|---|
+| | | | Leader / Member |
+
+> Mỗi thành viên cần ≥ 1 commit trên branch nộp bài. Điền đủ trước khi nộp VLearn.
+=======
 ﻿# Teammates
 
 | Họ tên | MSSV | GitHub Username | Vai trò |
@@ -12,3 +21,4 @@ Repository chung: https://github.com/LeDuyQuan1911/K4-Day04-2A202602731
 
 Mỗi thành viên nộp cùng URL repository này trên tài khoản VLearn của mình.
 Evidence đóng góp và bản nháp reflection nằm trong `starter_v0/artifacts/REPORT.md`.
+>>>>>>> origin/main
