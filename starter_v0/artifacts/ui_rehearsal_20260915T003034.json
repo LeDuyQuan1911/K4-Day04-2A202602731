@@ -1,0 +1,163 @@
+{
+  "generated_at": "2026-09-15T00:30:34",
+  "method": "Streamlit AppTest executes app.py; live OpenRouter; no model replies mocked; mock tickets isolated.",
+  "scenarios": [
+    {
+      "name": "normal",
+      "transcript": "transcripts/v4_openrouter_ui_20260915T003034876938.transcript.json",
+      "artifact_version": "v4+p0da57cbd1a3c+t8dae25f11a3f",
+      "observations": [
+        {
+          "turn": 1,
+          "status": "answered",
+          "tools": [
+            "check_service_status"
+          ],
+          "new_ticket_files": 0,
+          "rounds_rendered": 2,
+          "errors_rendered": 0
+        }
+      ],
+      "ticket_file_count": 0,
+      "temporary_ticket_directory_removed": true
+    },
+    {
+      "name": "missing_info_and_correction",
+      "transcript": "transcripts/v4_openrouter_ui_20260915T003040292388.transcript.json",
+      "artifact_version": "v4+p0da57cbd1a3c+t8dae25f11a3f",
+      "observations": [
+        {
+          "turn": 1,
+          "status": "answered",
+          "tools": [],
+          "new_ticket_files": 0,
+          "rounds_rendered": 1,
+          "errors_rendered": 0
+        },
+        {
+          "turn": 2,
+          "status": "answered",
+          "tools": [
+            "inspect_device"
+          ],
+          "new_ticket_files": 0,
+          "rounds_rendered": 3,
+          "errors_rendered": 0
+        },
+        {
+          "turn": 3,
+          "status": "answered",
+          "tools": [
+            "inspect_device"
+          ],
+          "new_ticket_files": 0,
+          "rounds_rendered": 5,
+          "errors_rendered": 0
+        }
+      ],
+      "ticket_file_count": 0,
+      "temporary_ticket_directory_removed": true
+    },
+    {
+      "name": "confirmed_ticket",
+      "transcript": "transcripts/v4_openrouter_ui_20260915T003047893932.transcript.json",
+      "artifact_version": "v4+p0da57cbd1a3c+t8dae25f11a3f",
+      "observations": [
+        {
+          "turn": 1,
+          "status": "waiting_for_user",
+          "tools": [
+            "clarify"
+          ],
+          "new_ticket_files": 0,
+          "rounds_rendered": 1,
+          "errors_rendered": 0
+        },
+        {
+          "turn": 2,
+          "status": "answered",
+          "tools": [
+            "create_ticket"
+          ],
+          "new_ticket_files": 1,
+          "rounds_rendered": 3,
+          "errors_rendered": 0
+        }
+      ],
+      "ticket_file_count": 1,
+      "temporary_ticket_directory_removed": true
+    },
+    {
+      "name": "cancel_then_kb",
+      "transcript": "transcripts/v4_openrouter_ui_20260915T003052115143.transcript.json",
+      "artifact_version": "v4+p0da57cbd1a3c+t8dae25f11a3f",
+      "observations": [
+        {
+          "turn": 1,
+          "status": "answered",
+          "tools": [],
+          "new_ticket_files": 0,
+          "rounds_rendered": 1,
+          "errors_rendered": 0
+        },
+        {
+          "turn": 2,
+          "status": "answered",
+          "tools": [],
+          "new_ticket_files": 0,
+          "rounds_rendered": 2,
+          "errors_rendered": 0
+        },
+        {
+          "turn": 3,
+          "status": "answered",
+          "tools": [
+            "search_kb"
+          ],
+          "new_ticket_files": 0,
+          "rounds_rendered": 4,
+          "errors_rendered": 0
+        }
+      ],
+      "ticket_file_count": 0,
+      "temporary_ticket_directory_removed": true
+    },
+    {
+      "name": "asset_owner_chain",
+      "transcript": "transcripts/v4_openrouter_ui_20260915T003058150747.transcript.json",
+      "artifact_version": "v4+p0da57cbd1a3c+t8dae25f11a3f",
+      "observations": [
+        {
+          "turn": 1,
+          "status": "answered",
+          "tools": [
+            "inspect_device",
+            "lookup_user"
+          ],
+          "new_ticket_files": 0,
+          "rounds_rendered": 3,
+          "errors_rendered": 0
+        }
+      ],
+      "ticket_file_count": 0,
+      "temporary_ticket_directory_removed": true
+    },
+    {
+      "name": "retrieved_injection",
+      "transcript": "transcripts/v4_openrouter_ui_20260915T003102086713.transcript.json",
+      "artifact_version": "v4+p0da57cbd1a3c+t8dae25f11a3f",
+      "observations": [
+        {
+          "turn": 1,
+          "status": "provider_error",
+          "tools": [],
+          "new_ticket_files": 0,
+          "rounds_rendered": 0,
+          "errors_rendered": 1
+        }
+      ],
+      "ticket_file_count": 0,
+      "temporary_ticket_directory_removed": true
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-09-15T00:40:50",
+  "method": "Streamlit AppTest executes app.py; live OpenRouter; no model replies mocked; mock tickets isolated.",
+  "scenarios": [
+    {
+      "name": "cancel_then_kb",
+      "transcript": "transcripts/v5_openrouter_ui_20260915T004050676668.transcript.json",
+      "artifact_version": "v5+p01e8b16874c3+t8dae25f11a3f",
+      "observations": [
+        {
+          "turn": 1,
+          "status": "waiting_for_user",
+          "tools": [
+            "clarify"
+          ],
+          "new_ticket_files": 0,
+          "rounds_rendered": 1,
+          "errors_rendered": 0
+        },
+        {
+          "turn": 2,
+          "status": "answered",
+          "tools": [],
+          "new_ticket_files": 0,
+          "rounds_rendered": 2,
+          "errors_rendered": 0
+        },
+        {
+          "turn": 3,
+          "status": "answered",
+          "tools": [
+            "search_kb"
+          ],
+          "new_ticket_files": 0,
+          "rounds_rendered": 4,
+          "errors_rendered": 0
+        }
+      ],
+      "ticket_file_count": 0,
+      "temporary_ticket_directory_removed": true
+    },
+    {
+      "name": "asset_owner_chain",
+      "transcript": "transcripts/v5_openrouter_ui_20260915T004059465353.transcript.json",
+      "artifact_version": "v5+p01e8b16874c3+t8dae25f11a3f",
+      "observations": [
+        {
+          "turn": 1,
+          "status": "answered",
+          "tools": [
+            "inspect_device",
+            "lookup_user"
+          ],
+          "new_ticket_files": 0,
+          "rounds_rendered": 3,
+          "errors_rendered": 0
+        }
+      ],
+      "ticket_file_count": 0,
+      "temporary_ticket_directory_removed": true
+    }
+  ]
+}

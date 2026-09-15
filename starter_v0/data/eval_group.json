@@ -1,6 +1,7 @@
 {
   "dataset_id": "day04_v3_helpdesk_group",
   "dataset_role": "group",
+<<<<<<< HEAD
   "description": "Team-authored IT helpdesk cases: 5 single-turn + 5 multi-turn covering ambiguous intent, missing IDs, correction, cancellation, parallel tools, stale confirmation, format-only, and external/internal boundary.",
   "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
   "cases": [
@@ -119,6 +120,201 @@
       "failure_type": "wrong_boundary",
       "expect": {"tool_calls": [{"name": "inspect_device", "args": {"asset_id": "DT-031", "check": "all"}}]},
       "metadata": {"skill": "internal_external_boundary", "difficulty": "hard", "what_it_tests": "Latest turn chỉ cho phép inspect nội bộ; không search_device_info với dữ liệu nội bộ."}
+=======
+  "description": "10 original team-authored IT helpdesk cases: 5 single-turn and 5 multi-turn. Covers ambiguous intent, multi-turn correction, cancellation, policy lookup combined with a confirmed ticket, multi-asset routing and context carry-over.",
+  "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
+  "cases": [
+    {
+      "id": "G01_ambiguous_request_clarify",
+      "phase": "B",
+      "suite": "group",
+      "query": "Từ sáng tới giờ mình gần như không làm việc được, bạn xem giúp có gì bất thường không.",
+      "failure_type": "missing_info",
+      "expect": {
+        "tool_calls": [
+          {"name": "clarify", "args": {"response_type": "text"}}
+        ]
+      },
+      "metadata": {
+        "skill": "ambiguous_intent_clarify",
+        "difficulty": "medium",
+        "what_it_tests": "Yêu cầu quá mơ hồ để route: chưa rõ dịch vụ, thiết bị hay tài khoản. Phải hỏi lại thay vì tự đoán service/asset."
+      }
+    },
+    {
+      "id": "G02_policy_service_change_rules",
+      "phase": "B",
+      "suite": "group",
+      "query": "Theo quy định nội bộ, muốn restart dịch vụ printing production thì cần những bước nào?",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {"name": "policy", "args": {"policy_area": "service_operations"}}
+        ]
+      },
+      "metadata": {
+        "skill": "policy_service_operations",
+        "difficulty": "medium",
+        "what_it_tests": "Câu hỏi về quy định thay đổi shared service phải tra policy service_operations, không gọi check_service_status."
+      }
+    },
+    {
+      "id": "G03_two_assets_different_checks",
+      "phase": "B",
+      "suite": "group",
+      "query": "Kiểm tra network của MB-012 và security của LT-411, báo riêng từng máy giúp mình.",
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {"name": "inspect_device", "args": {"asset_id": "MB-012", "check": "network"}},
+          {"name": "inspect_device", "args": {"asset_id": "LT-411", "check": "security"}}
+        ]
+      },
+      "metadata": {
+        "skill": "two_calls_same_tool_different_args",
+        "difficulty": "hard",
+        "what_it_tests": "Hai lời gọi cùng tool nhưng khác asset_id và khác check; không được gộp chung hoặc dùng một check cho cả hai máy."
+      }
+    },
+    {
+      "id": "G04_asset_owner_then_account",
+      "phase": "B",
+      "suite": "group",
+      "query": "Máy MB-012 đang được cấp cho nhân viên nào, và trạng thái tài khoản của người đó hiện ra sao?",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {"name": "inspect_device", "args": {"asset_id": "MB-012"}},
+          {"name": "lookup_user", "args": {"employee_id": "EMP-1008"}}
+        ]
+      },
+      "metadata": {
+        "skill": "asset_to_directory_chain",
+        "difficulty": "hard",
+        "what_it_tests": "Phải lấy assigned_to từ inventory rồi mới tra directory; cấm đoán employee ID."
+      }
+    },
+    {
+      "id": "G05_multi_user_wifi_is_shared_service",
+      "phase": "B",
+      "suite": "group",
+      "query": "Cả phòng tầng 4 toà Bangkok đều không vào được Wi-Fi công ty từ sáng nay.",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {"name": "check_service_status", "args": {"service": "wifi", "environment": "production"}}
+        ]
+      },
+      "metadata": {
+        "skill": "shared_vs_single_asset",
+        "difficulty": "medium",
+        "what_it_tests": "Sự cố ảnh hưởng nhiều người theo tầng là shared service, không phải inspect một thiết bị."
+      }
+    },
+    {
+      "id": "M01_ambiguous_then_policy",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Mình có thắc mắc về chuyện tạo ticket."},
+        {"role": "user", "content": "Ý mình là theo chính sách nội bộ, việc tạo ticket có bắt buộc phải xin xác nhận của người dùng không?"}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {"name": "policy", "args": {"policy_area": "ticketing"}}
+        ]
+      },
+      "metadata": {
+        "skill": "multiturn_ambiguous_to_policy",
+        "difficulty": "medium",
+        "what_it_tests": "Lượt đầu mơ hồ, lượt sau mới rõ intent là tra policy ticketing; chỉ chấm lượt cuối."
+      }
+    },
+    {
+      "id": "M02_change_asset_keep_check",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Kiểm tra software của máy LT-411 giúp mình."},
+        {"role": "user", "content": "Máy đó của đồng nghiệp khác rồi, đổi sang máy để bàn DT-087."},
+        {"role": "user", "content": "Vẫn giữ nguyên kiểu kiểm tra như lúc đầu nhé."}
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {"name": "inspect_device", "args": {"asset_id": "DT-087", "check": "software"}}
+        ]
+      },
+      "metadata": {
+        "skill": "multiturn_correction_asset",
+        "difficulty": "medium",
+        "what_it_tests": "Lượt cuối đổi asset nhưng giữ check từ lượt đầu; không được dùng lại LT-411."
+      }
+    },
+    {
+      "id": "M03_cancel_ticket_then_ask_kb",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Tạo ticket lỗi email cho nhân viên EMP-1004, mức medium."},
+        {"role": "user", "content": "Thôi hủy, không tạo ticket nữa."},
+        {"role": "user", "content": "Thay vào đó tìm hướng dẫn cấu hình lại Outlook profile."}
+      ],
+      "failure_type": "unnecessary_tool",
+      "expect": {
+        "tool_calls": [
+          {"name": "search_kb", "args": {"category": "email"}}
+        ]
+      },
+      "metadata": {
+        "skill": "multiturn_cancellation",
+        "difficulty": "medium",
+        "what_it_tests": "Hành động tạo ticket ở lượt đầu đã bị hủy; lượt cuối chỉ cần tra KB email, không được gọi create_ticket."
+      }
+    },
+    {
+      "id": "M04_policy_priority_then_confirmed_ticket",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Theo policy, sự cố chỉ ảnh hưởng một nhân viên và không có cách xử lý thay thế thì xếp priority nào?"},
+        {"role": "user", "content": "Áp dụng đúng mức đó, soạn ticket cho lỗi VPN trên LT-204, mình sẽ xác nhận ở lượt sau."},
+        {"role": "user", "content": "Đúng thông tin rồi, mình xác nhận tạo ticket."}
+      ],
+      "failure_type": "wrong_boundary",
+      "expect": {
+        "tool_calls": [
+          {"name": "create_ticket", "args": {"asset_id": "LT-204", "priority": "medium", "confirmed": true}}
+        ]
+      },
+      "metadata": {
+        "skill": "policy_then_confirmed_ticket",
+        "difficulty": "hard",
+        "what_it_tests": "Priority suy ra từ policy ở lượt đầu, payload ở lượt hai, chỉ được tạo ticket sau xác nhận rõ ở lượt cuối."
+      }
+    },
+    {
+      "id": "M05_stale_confirmation_after_downgrade",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Mình xác nhận tạo ticket mức critical cho lỗi máy in PR-404."},
+        {"role": "user", "content": "À thôi, hạ xuống low và bỏ phần nghi mất dữ liệu."},
+        {"role": "user", "content": "Xác nhận lúc đầu vẫn tính đúng không? Cứ dùng nó mà tạo luôn."}
+      ],
+      "failure_type": "wrong_boundary",
+      "expect": {
+        "tool_calls": [
+          {"name": "clarify", "args": {"response_type": "yes_no"}}
+        ]
+      },
+      "metadata": {
+        "skill": "multiturn_stale_confirmation",
+        "difficulty": "hard",
+        "what_it_tests": "Xác nhận cũ gắn với payload critical đã bị đổi sang low; phải xin xác nhận lại thay vì tạo ticket."
+      }
+>>>>>>> origin/main
     }
   ]
 }

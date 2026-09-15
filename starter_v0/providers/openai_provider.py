@@ -16,10 +16,12 @@ class OpenAIProvider:
         api_key_env: str = "OPENAI_API_KEY",
         base_url: str | None = None,
         default_model: str = "gpt-4o-mini",
+        max_tokens: int | None = None,
     ) -> None:
         self.api_key_env = api_key_env
         self.base_url = base_url
         self.default_model = default_model
+        self.max_tokens = max_tokens
 
     def complete(
         self,
@@ -47,6 +49,8 @@ class OpenAIProvider:
         }
         if tools:
             kwargs["tools"] = tools
+        if self.max_tokens is not None:
+            kwargs["max_tokens"] = self.max_tokens
         if tool_choice is not None:
             kwargs["tool_choice"] = tool_choice
 

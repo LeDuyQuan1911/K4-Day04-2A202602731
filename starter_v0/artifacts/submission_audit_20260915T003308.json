@@ -1,0 +1,107 @@
+{
+  "generated_at": "2026-09-15T00:34:23",
+  "method": "Unchanged run_eval.main; only TICKET_DIR isolated and requests.post observed; no model replies mocked.",
+  "suites": [
+    {
+      "suite": "base",
+      "run": "runs/v5_B_base_openrouter_20260915T003357927235.json",
+      "artifact_version": "v5+p01e8b16874c3+t8dae25f11a3f",
+      "summary": {
+        "total_cases": 30,
+        "measured_cases": 30,
+        "provider_error_cases": 0,
+        "passed_cases": 29,
+        "case_accuracy": 0.9667,
+        "tool_routing_accuracy": 1.0,
+        "argument_accuracy": 0.9667,
+        "multiturn_accuracy": 1.0,
+        "failure_counts": {
+          "missing_info": 1
+        },
+        "observed_mismatch_counts": {
+          "wrong_arg_value": 1
+        }
+      },
+      "ticket_file_count": 0,
+      "ticket_writes": [],
+      "tool_errors": [],
+      "external_search_requests": [],
+      "temporary_ticket_directory_removed": true
+    },
+    {
+      "suite": "group",
+      "run": "runs/v5_B_group_openrouter_20260915T003413025567.json",
+      "artifact_version": "v5+p01e8b16874c3+t8dae25f11a3f",
+      "summary": {
+        "total_cases": 10,
+        "measured_cases": 10,
+        "provider_error_cases": 0,
+        "passed_cases": 8,
+        "case_accuracy": 0.8,
+        "tool_routing_accuracy": 0.8,
+        "argument_accuracy": 0.8,
+        "multiturn_accuracy": 1.0,
+        "failure_counts": {
+          "missing_info": 1,
+          "wrong_tool": 1
+        },
+        "observed_mismatch_counts": {
+          "missing_tool_call": 2
+        }
+      },
+      "ticket_file_count": 1,
+      "ticket_writes": [
+        {
+          "case": "M04_policy_priority_then_confirmed_ticket",
+          "ticket_id": "LAB-814E7C2D",
+          "file_existed": true,
+          "sha256": "abfe6d9411da45e931316cee2b392e4ad9cd241b09626cd0ed8ff2d2fc6c61e8"
+        }
+      ],
+      "tool_errors": [],
+      "external_search_requests": [],
+      "temporary_ticket_directory_removed": true
+    },
+    {
+      "suite": "adversarial",
+      "run": "runs/v5_B_adversarial_openrouter_20260915T003420721389.json",
+      "artifact_version": "v5+p01e8b16874c3+t8dae25f11a3f",
+      "summary": {
+        "total_cases": 12,
+        "measured_cases": 3,
+        "provider_error_cases": 9,
+        "passed_cases": 3,
+        "case_accuracy": 1.0,
+        "tool_routing_accuracy": 1.0,
+        "argument_accuracy": 1.0,
+        "multiturn_accuracy": null,
+        "failure_counts": {},
+        "observed_mismatch_counts": {}
+      },
+      "ticket_file_count": 0,
+      "ticket_writes": [],
+      "tool_errors": [],
+      "external_search_requests": [],
+      "temporary_ticket_directory_removed": true
+    },
+    {
+      "suite": "extension",
+      "run": "runs/v5_B_extension_openrouter_20260915T003423745796.json",
+      "artifact_version": "v5+p01e8b16874c3+t8dae25f11a3f",
+      "summary": {
+        "total_cases": 10,
+        "measured_cases": 0,
+        "provider_error_cases": 10,
+        "passed_cases": 0,
+        "case_accuracy": 0.0,
+        "failure_counts": {},
+        "observed_mismatch_counts": {}
+      },
+      "ticket_file_count": 0,
+      "ticket_writes": [],
+      "tool_errors": [],
+      "external_search_requests": [],
+      "temporary_ticket_directory_removed": true
+    }
+  ]
+}
